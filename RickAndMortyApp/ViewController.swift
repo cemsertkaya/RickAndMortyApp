@@ -30,21 +30,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private let tableView : UITableView =
     {
-        return UITableView()
+        let tableView = UITableView()
+        return tableView
     }()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         uiSetup()
-        tableView.dataSource = self
-        tableView.delegate = self
+        tableViewSetup()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "cem"
-        cell.contentView.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xE5E5E5, alpha: 1)
+        let cell = TableViewCell()
         return cell
     }
     
@@ -52,31 +50,39 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func uiSetup()
     {
-        self.view.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xE5E5E5, alpha: 1)
-        self.tableView.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xE5E5E5, alpha: 1)
+        view.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xE5E5E5, alpha: 1)
         
-        self.view.addSubview(navigationTitle)
+        view.addSubview(navigationTitle)
         navigationTitle.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(120)
             make.centerX.equalToSuperview()
         }
         
-        self.view.addSubview(navigationButton)
+        view.addSubview(navigationButton)
         navigationButton.snp.makeConstraints { (make) -> Void in
             make.height.equalTo(115)
             make.right.equalToSuperview().offset(-20)
         }
+    }
+    
+    func tableViewSetup()
+    {
+        tableView.dataSource = self
+        tableView.delegate = self
         
-        self.view.addSubview(tableView)
+        tableView.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xE5E5E5, alpha: 1)
+        tableView.separatorStyle = .none
+        
+        view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) -> Void in
             make.left.equalToSuperview().offset(0)
             make.right.equalToSuperview().offset(0)
             make.top.equalToSuperview().offset(120)
             make.bottom.equalToSuperview().offset(0)
         }
+        
+        tableView.estimatedRowHeight = 265
     }
-   
-
 }
 
 
