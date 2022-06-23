@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Apollo
 
 class ViewController: UIViewController
 {
@@ -34,11 +35,30 @@ class ViewController: UIViewController
         return tableView
     }()
     
+    var launches = [GetCharactersQuery.Data.Character]()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         uiSetup()
         tableViewSetup()
+        
+        
+        Network.shared.apollo.fetch(query: GetCharactersQuery()) { result in
+          switch result {
+              case .success(let graphQLResult):
+                print("Success! Result: \(graphQLResult)")
+              if let newCharacters = graphQLResult.data?.characters?.results as? [GetCharactersQuery.Data.Character]{
+                  self.launches = newCharacters
+              }
+              
+              print(self.launches.count)
+              case .failure(let error):
+                print("Failure! Error: \(error)")
+              }
+        }
+        
+       
     }
     
 

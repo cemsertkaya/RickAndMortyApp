@@ -1,0 +1,11 @@
+query getCharacters{
+  characters(page: 2, filter: { name: "rick" }) {
+    results {
+      name
+      image
+      location {
+        name
+      }
+    }
+  }
+}
