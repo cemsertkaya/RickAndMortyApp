@@ -20,3 +20,11 @@ extension UIColor
         return UIColor(red:red, green:green, blue:blue, alpha:CGFloat(alpha))
     }
 }
+
+extension UIView{
+    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
+           clipsToBounds = true
+           layer.cornerRadius = radius
+           layer.maskedCorners = CACornerMask(rawValue: corners.rawValue)
+     }
+}
