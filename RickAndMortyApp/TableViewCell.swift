@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class TableViewCell: UITableViewCell {
 
@@ -28,20 +29,6 @@ class TableViewCell: UITableViewCell {
        return photoView
     }()
     
-    
-    private let labelView1: UIView =
-    {
-       let labelView1 = UIView()
-       labelView1.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xFFFFFF, alpha: 1)
-       return labelView1
-    }()
-    
-    private let labelView2: UIView =
-    {
-       let labelView2 = UIView()
-       labelView2.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xFFFFFF, alpha: 1)
-       return labelView2
-    }()
     
     override func awakeFromNib() {super.awakeFromNib()}
 
@@ -72,80 +59,43 @@ class TableViewCell: UITableViewCell {
             make.right.equalToSuperview()
         }
         
+        createUILabel(parentView: parentView, labelText: "Location:", textColor:  UIColor.black, offset: -15, inset: 10, bottomLeading: true)
+        createUILabel(parentView: parentView, labelText: "Input", textColor:  UIColor.gray, offset: -15, inset: 85, bottomLeading: true)
+        createUILabel(parentView: parentView, labelText: "Name:", textColor:  UIColor.black, offset: -45, inset: 10, bottomLeading: true)
+        createUILabel(parentView: parentView, labelText: "Input", textColor:  UIColor.gray, offset: -45, inset: 85, bottomLeading: true)
+        createUILabel(parentView: parentView, labelText: "#id:", textColor:  UIColor.black, offset: 168, inset: 25, bottomLeading: false)
+        createUILabel(parentView: parentView, labelText: "1", textColor:  UIColor.gray, offset: 168, inset: 10, bottomLeading: false)
         
-        
-        
-        parentView.addSubview(labelView2)
-        let locationLabel = UILabel()
-        locationLabel.textColor = UIColor.black
-        locationLabel.text = "Location:"
-        labelView2.addSubview(locationLabel)
-        
-        let locationField = UILabel()
-        locationField.textColor = UIColor.gray
-        locationField.text = "Input"
-        labelView2.addSubview(locationField)
-        
-        labelView2.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(25)
-            make.bottom.equalToSuperview().inset(15)
-            make.left.equalToSuperview().inset(10)
-            make.right.equalToSuperview().inset(10)
-        }
-        
-        locationLabel.snp.makeConstraints { (make) -> Void in make.leading.equalToSuperview().inset(10)}
-        locationField.snp.makeConstraints { (make) -> Void in make.leading.equalToSuperview().offset(10 + locationLabel.intrinsicContentSize.width + 5)}
-        
-        parentView.addSubview(labelView1)
-        let nameLabel = UILabel()
-        nameLabel.textColor = UIColor.black
-        nameLabel.text = "Name:"
-        labelView1.addSubview(nameLabel)
-        
-        let nameField = UILabel()
-        nameField.textColor = UIColor.gray
-        nameField.text = "Input"
-        labelView1.addSubview(nameField)
-        
-        
-        labelView1.snp.makeConstraints { (make) -> Void in
-            make.height.equalTo(25)
-            make.bottom.equalToSuperview().inset(45)
-            make.left.equalToSuperview().inset(10)
-            make.right.equalToSuperview().inset(10)
-
-        }
-        nameLabel.snp.makeConstraints { (make) -> Void in make.leading.equalToSuperview().inset(10)}
-        nameField.snp.makeConstraints { (make) -> Void in make.leading.equalToSuperview().offset(10 + nameLabel.intrinsicContentSize.width + 5)}
-        
-        let numberIDLabel = UILabel()
-        numberIDLabel.textColor = UIColor.black
-        numberIDLabel.text = "#id:"
-        parentView.addSubview(numberIDLabel)
-        numberIDLabel.snp.makeConstraints { (make) -> Void in
-            make.top.equalToSuperview().offset(168)
-            make.trailing.equalToSuperview().inset(25)
+    }
+    
+    required init?(coder: NSCoder) {fatalError("init(coder:) has not been implemented")}
+    
+    ///A method to create UI Labels, bottomLeading boolean determines whether func act for bottom and leading or top and trailing
+    func createUILabel(parentView: UIView, labelText: String,textColor: UIColor, offset: Int, inset: Int, bottomLeading : Bool)
+    {
+        let label = UILabel()
+        label.textColor = textColor
+        label.text = labelText
+        parentView.addSubview(label)
+        label.snp.makeConstraints { (make) -> Void in
+            if bottomLeading
+            {
+                make.bottom.equalToSuperview().offset(offset)
+                make.leading.equalToSuperview().inset(inset)
+            }
+            else
+            {
+                make.top.equalToSuperview().offset(offset)
+                make.trailing.equalToSuperview().inset(inset)
+            }
             
         }
-        
-        let numberIDField = UILabel()
-        numberIDField.textColor = UIColor.gray
-        numberIDField.text = "1"
-        parentView.addSubview(numberIDField)
-        numberIDField.snp.makeConstraints { (make) -> Void in
-            make.top.equalToSuperview().offset(168)
-            make.trailing.equalToSuperview().inset(10)
-        }
-        
-        
-        
-        
-        
-        
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+   
     
+    
+
 }
+
+
