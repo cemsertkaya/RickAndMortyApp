@@ -7,6 +7,7 @@ target 'RickAndMortyApp' do
 
   # Pods for RickAndMortyApp
   pod 'SnapKit', '~> 5.0.0'
+  pod "Apollo"
   target 'RickAndMortyAppTests' do
     inherit! :search_paths
     # Pods for testing

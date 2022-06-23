@@ -1,16 +1,22 @@
 PODS:
+  - Apollo (0.51.2):
+    - Apollo/Core (= 0.51.2)
+  - Apollo/Core (0.51.2)
   - SnapKit (5.0.1)
 
 DEPENDENCIES:
+  - Apollo
   - SnapKit (~> 5.0.0)
 
 SPEC REPOS:
   trunk:
+    - Apollo
     - SnapKit
 
 SPEC CHECKSUMS:
+  Apollo: e5bc805c3f3556c18edc4eae4e2ea4723cea2318
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
 
-PODFILE CHECKSUM: 6bd3336a0379a6631df0f031aa72cddb1cde728a
+PODFILE CHECKSUM: eb6955c1a06f5fc4d4f12cd9cf0420728275a062
 
 COCOAPODS: 1.11.2
