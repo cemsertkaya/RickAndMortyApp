@@ -11,7 +11,7 @@ import Apollo
 
 class ViewController: UIViewController
 {
-    
+    private var charachterListViewModel = CharactersListViewModel()
     private let navigationTitle : UILabel =
     {
         let titleLabel = UILabel()
@@ -35,34 +35,15 @@ class ViewController: UIViewController
         return tableView
     }()
     
-    var launches = [GetCharactersQuery.Data.Character]()
+    
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         uiSetup()
         tableViewSetup()
-        
-        
-        Network.shared.apollo.fetch(query: GetCharactersQuery()) { result in
-          switch result {
-              case .success(let graphQLResult):
-                print("Success! Result: \(graphQLResult)")
-              if let newCharacters = graphQLResult.data?.characters?.results as? [GetCharactersQuery.Data.Character]{
-                  self.launches = newCharacters
-              }
-              
-              print(self.launches.count)
-              case .failure(let error):
-                print("Failure! Error: \(error)")
-              }
-        }
-        
-       
+        charachterListViewModel.getAllCharacters {self.tableView.reloadData()}
     }
-    
-
-    
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource
@@ -70,10 +51,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
         let cell = TableViewCell()
+        cell.configure(charachterListViewModel.modelAt(indexPath.row))
         return cell
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {return 5}
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {return charachterListViewModel.numberOfRows(section)}
 }
 
 extension ViewController
@@ -110,7 +92,6 @@ extension ViewController
             make.top.equalToSuperview().offset(120)
             make.bottom.equalToSuperview().offset(0)
         }
-        
         tableView.estimatedRowHeight = 265
     }
 }

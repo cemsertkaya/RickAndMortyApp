@@ -1,6 +1,7 @@
 query getCharacters{
-  characters(page: 2, filter: { name: "rick" }) {
+  characters(page: 1) {
     results {
+      id
       name
       image
       location {

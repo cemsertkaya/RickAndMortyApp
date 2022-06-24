@@ -9,10 +9,11 @@ public final class GetCharactersQuery: GraphQLQuery {
   public let operationDefinition: String =
     """
     query getCharacters {
-      characters(page: 2, filter: {name: "rick"}) {
+      characters(page: 1) {
         __typename
         results {
           __typename
+          id
           name
           image
           location {
@@ -34,7 +35,7 @@ public final class GetCharactersQuery: GraphQLQuery {
 
     public static var selections: [GraphQLSelection] {
       return [
-        GraphQLField("characters", arguments: ["page": 2, "filter": ["name": "rick"]], type: .object(Character.selections)),
+        GraphQLField("characters", arguments: ["page": 1], type: .object(Character.selections)),
       ]
     }
 
@@ -102,6 +103,7 @@ public final class GetCharactersQuery: GraphQLQuery {
         public static var selections: [GraphQLSelection] {
           return [
             GraphQLField("__typename", type: .nonNull(.scalar(String.self))),
+            GraphQLField("id", type: .scalar(GraphQLID.self)),
             GraphQLField("name", type: .scalar(String.self)),
             GraphQLField("image", type: .scalar(String.self)),
             GraphQLField("location", type: .object(Location.selections)),
@@ -114,8 +116,8 @@ public final class GetCharactersQuery: GraphQLQuery {
           self.resultMap = unsafeResultMap
         }
 
-        public init(name: String? = nil, image: String? = nil, location: Location? = nil) {
-          self.init(unsafeResultMap: ["__typename": "Character", "name": name, "image": image, "location": location.flatMap { (value: Location) -> ResultMap in value.resultMap }])
+        public init(id: GraphQLID? = nil, name: String? = nil, image: String? = nil, location: Location? = nil) {
+          self.init(unsafeResultMap: ["__typename": "Character", "id": id, "name": name, "image": image, "location": location.flatMap { (value: Location) -> ResultMap in value.resultMap }])
         }
 
         public var __typename: String {
@@ -124,6 +126,16 @@ public final class GetCharactersQuery: GraphQLQuery {
           }
           set {
             resultMap.updateValue(newValue, forKey: "__typename")
+          }
+        }
+
+        /// The id of the character.
+        public var id: GraphQLID? {
+          get {
+            return resultMap["id"] as? GraphQLID
+          }
+          set {
+            resultMap.updateValue(newValue, forKey: "id")
           }
         }
 
