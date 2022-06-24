@@ -11,7 +11,16 @@ import Apollo
 
 class ViewController: UIViewController
 {
-    private var charachterListViewModel = CharactersListViewModel()
+    private let charachterListViewModel = CharactersListViewModel()
+    
+    private let backgroundBlurEffect : UIVisualEffectView =
+    {
+        let effect = UIVisualEffectView(effect: UIBlurEffect(style: .light))
+        effect.isHidden = true
+        effect.translatesAutoresizingMaskIntoConstraints = false
+        return effect
+    }()
+    
     private let navigationTitle : UILabel =
     {
         let titleLabel = UILabel()
@@ -48,13 +57,23 @@ class ViewController: UIViewController
         super.viewDidLoad()
         uiSetup()
         tableViewSetup()
+        backgroundBlurEffectSetup()
         filterViewSetup()
         charachterListViewModel.getAllCharacters {self.tableView.reloadData()}
     }
     
+    @objc func buttonAction(sender: UIButton!)
+    {
+        self.filterView.isHidden.toggle()
+        self.backgroundBlurEffect.isHidden.toggle()
+    }
     
-    @objc func buttonAction(sender: UIButton!) {
-        self.filterView.isHidden = false
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+        if self.backgroundBlurEffect.isHidden == false
+        {
+            self.backgroundBlurEffect.isHidden.toggle()
+            self.filterView.isHidden.toggle()
+        }
     }
 }
 
@@ -69,6 +88,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {return charachterListViewModel.numberOfRows(section)}
 }
+
+
 
 extension ViewController
 {
@@ -98,12 +119,14 @@ extension ViewController
         tableView.separatorStyle = .none
         
         view.addSubview(tableView)
+        
         tableView.snp.makeConstraints { (make) -> Void in
             make.left.equalToSuperview().offset(0)
             make.right.equalToSuperview().offset(0)
             make.top.equalToSuperview().offset(120)
             make.bottom.equalToSuperview().offset(0)
         }
+        
         tableView.estimatedRowHeight = 265
     }
     
@@ -151,5 +174,20 @@ extension ViewController
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview()
         }
+    }
+    
+    func backgroundBlurEffectSetup()
+    {
+        view.addSubview(backgroundBlurEffect)
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        backgroundBlurEffect.addGestureRecognizer(tap)
+        
+        NSLayoutConstraint.activate([
+          backgroundBlurEffect.topAnchor.constraint(equalTo: view.topAnchor),
+          backgroundBlurEffect.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+          backgroundBlurEffect.heightAnchor.constraint(equalTo: view.heightAnchor),
+          backgroundBlurEffect.widthAnchor.constraint(equalTo: view.widthAnchor)
+        ])
     }
 }
