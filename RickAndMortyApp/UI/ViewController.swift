@@ -22,9 +22,17 @@ class ViewController: UIViewController
         return titleLabel
     }()
     
+    private let filterView : UIView =
+    {
+        let filterView = UIView()
+        filterView.isHidden = true
+        return filterView
+    }()
+    
     private let navigationButton : UIButton =
     {
         let navBarButton = UIButton(type: .custom)
+        navBarButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         if let image = UIImage(named: "filterAsset"){navBarButton.setImage(image, for: .normal)}
         return navBarButton
     }()
@@ -34,15 +42,19 @@ class ViewController: UIViewController
         let tableView = UITableView()
         return tableView
     }()
-    
-    
-    
+        
     override func viewDidLoad()
     {
         super.viewDidLoad()
         uiSetup()
         tableViewSetup()
+        filterViewSetup()
         charachterListViewModel.getAllCharacters {self.tableView.reloadData()}
+    }
+    
+    
+    @objc func buttonAction(sender: UIButton!) {
+        self.filterView.isHidden = false
     }
 }
 
@@ -93,5 +105,51 @@ extension ViewController
             make.bottom.equalToSuperview().offset(0)
         }
         tableView.estimatedRowHeight = 265
+    }
+    
+    func filterViewSetup()
+    {
+        filterView.roundCorners([.topLeft, .topRight, .bottomLeft, .bottomRight], radius: 10)
+        let filterLabel = UILabel(); filterLabel.text = "Filter"; filterLabel.textColor = UIColor.black; filterLabel.font = UIFont.boldSystemFont(ofSize: 24)
+        
+        let rickLabel = UILabel(); rickLabel.text = "Rick"; rickLabel.textColor = UIColor.black ; rickLabel.font = UIFont.systemFont(ofSize: 24)
+        rickLabel.addTrailing(image: UIImage(named: "empySelection")!, text: "Rick")
+        
+        let mortyLabel = UILabel(); mortyLabel.text = "Morty"; mortyLabel.textColor = UIColor.black ; mortyLabel.font = UIFont.systemFont(ofSize: 24)
+        mortyLabel.addTrailing(image: UIImage(named: "empySelection")!, text: "Morty")
+        
+        filterView.backgroundColor = UIColor.init().UIColorFromHex(rgbValue: 0xFFFFFF, alpha: 1)
+        filterView.addSubview(filterLabel)
+        filterView.addSubview(rickLabel)
+        filterView.addSubview(mortyLabel)
+        
+        let lineView = UIView(frame: CGRect(x: 0, y: filterLabel.bounds.minY + 50, width: 5555, height: 0.7))
+        lineView.layer.borderWidth = 1.0
+        lineView.layer.borderColor = UIColor.black.cgColor
+        filterView.addSubview(lineView)
+        
+        filterLabel.snp.makeConstraints { (make) -> Void in
+            make.leading.equalToSuperview().inset(30)
+            make.top.equalToSuperview().inset(10)
+        }
+    
+        rickLabel.snp.makeConstraints { (make) -> Void in
+            make.leading.equalToSuperview().inset(30)
+            make.bottom.equalToSuperview().offset(-65)
+        }
+        
+        mortyLabel.snp.makeConstraints { (make) -> Void in
+            make.leading.equalToSuperview().inset(30)
+            make.bottom.equalToSuperview().offset(-25)
+        }
+        
+        view.addSubview(filterView)
+        filterView.snp.makeConstraints { (make) -> Void in
+            make.left.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(20)
+            make.height.equalTo(164)
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
     }
 }

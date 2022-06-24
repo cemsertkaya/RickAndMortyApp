@@ -144,19 +144,17 @@
 		4E68DB4B28647FF4002AA915 /* RickAndMortyApp */ = {
 			isa = PBXGroup;
 			children = (
-				4E6E0BFD2865B8CA00DB7990 /* API.swift */,
-				4E68DB9E28650A74002AA915 /* Client */,
+				4E6E0BFF2865BD0F00DB7990 /* UI */,
 				4E68DB872864DD44002AA915 /* ViewModel */,
+				4E68DB9E28650A74002AA915 /* Client */,
 				4E68DB4C28647FF4002AA915 /* AppDelegate.swift */,
 				4E68DB4E28647FF4002AA915 /* SceneDelegate.swift */,
 				4E68DB8228649D54002AA915 /* TableViewCell.swift */,
-				4E68DB5028647FF4002AA915 /* ViewController.swift */,
 				4E68DB5228647FF4002AA915 /* Main.storyboard */,
 				4E68DB5828647FF8002AA915 /* Assets.xcassets */,
 				4E68DB5A28647FF8002AA915 /* LaunchScreen.storyboard */,
 				4E68DB5D28647FF8002AA915 /* Info.plist */,
 				4E68DB5528647FF4002AA915 /* RickAndMortyApp.xcdatamodeld */,
-				4E68DB8028648540002AA915 /* UI+.swift */,
 				4E68DB922864FDDF002AA915 /* schema.json */,
 				4E68DB902864F7AA002AA915 /* schema.graphql */,
 			);
@@ -192,9 +190,19 @@
 		4E68DB9E28650A74002AA915 /* Client */ = {
 			isa = PBXGroup;
 			children = (
+				4E6E0BFD2865B8CA00DB7990 /* API.swift */,
 				4E68DB9C286509FE002AA915 /* Network.swift */,
 			);
 			path = Client;
+			sourceTree = "<group>";
+		};
+		4E6E0BFF2865BD0F00DB7990 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				4E68DB8028648540002AA915 /* UI+.swift */,
+				4E68DB5028647FF4002AA915 /* ViewController.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		565D0F531319182883ACAAC5 /* Pods */ = {

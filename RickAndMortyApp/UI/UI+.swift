@@ -50,3 +50,32 @@ extension UIImageView{
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
     }
 }
+
+
+extension UILabel
+{
+    
+    func addTrailing(image: UIImage, text:String)
+    {
+        let attachment = NSTextAttachment()
+        attachment.image = image
+        
+        let padding = NSTextAttachment()
+        //Use a height of 0 and width of the padding you want
+        if text.count == 4
+        {
+            padding.bounds = CGRect(x:0, y:0, width: 216, height: 0)
+        }
+        else
+        {
+            padding.bounds = CGRect(x:0, y:0, width: 200, height: 0)
+        }
+        
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let string = NSMutableAttributedString(string: text, attributes: [:])
+        string.insert(NSAttributedString(attachment: padding), at: text.count)
+
+        string.append(attachmentString)
+        self.attributedText = string
+    }
+}
