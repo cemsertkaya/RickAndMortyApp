@@ -64,8 +64,8 @@ class TableViewCell: UITableViewCell
         createUILabel(label: label1,parentView: parentView, labelText: "Input", textColor:  UIColor.gray, offset: -15, inset: 85, bottomLeading: true)
         createUILabel(label: UILabel(),parentView: parentView, labelText: "Name:", textColor:  UIColor.black, offset: -45, inset: 10, bottomLeading: true)
         createUILabel(label: label2,parentView: parentView, labelText: "Input", textColor:  UIColor.gray, offset: -45, inset: 65, bottomLeading: true)
-        createUILabel(label: UILabel(),parentView: parentView, labelText: "#id:", textColor:  UIColor.black, offset: 168, inset: 25, bottomLeading: false)
-        createUILabel(label: id,parentView: parentView, labelText: "1", textColor:  UIColor.gray, offset: 168, inset: 10, bottomLeading: false)
+        createUILabel(label: UILabel(),parentView: parentView, labelText: "#id:", textColor:  UIColor.black, offset: 168, inset: 32, bottomLeading: false)
+        createUILabel(label: id,parentView: parentView, labelText: "1", textColor:  UIColor.gray, offset: 168, inset: 6, bottomLeading: false)
         
     }
     

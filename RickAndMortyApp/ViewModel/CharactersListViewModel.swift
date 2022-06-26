@@ -4,29 +4,31 @@ import Apollo
 
 class CharactersListViewModel
 {
+    var characterFilterType : CharacterFilterType = .none
+    var page : Int = 1
     var updateHandler: () -> Void = {}
+    
     private(set) var characterViewModels = [CharacterViewModel]()
     
-    func addCharacterViewModel(_ vm: CharacterViewModel) {
-        self.characterViewModels.append(vm)
-    }
+    func addCharacterViewModel(_ vm: CharacterViewModel) {self.characterViewModels.append(vm)}
     
-    func numberOfRows(_ section: Int) -> Int {
-        return self.characterViewModels.count
-    }
+    func numberOfRows(_ section: Int) -> Int {return self.characterViewModels.count}
     
-    func modelAt(_ index: Int) -> CharacterViewModel {
+    func modelAt(_ index: Int, tableView : UITableView) -> CharacterViewModel {
+        if index > self.characterViewModels.count - 5
+        {
+            self.page += 1
+            getInitialCharacters() {print("refresh"); tableView.reloadData()}
+        }
         return self.characterViewModels[index]
+        
     }
     
-   
-    
-    
-     func getAllCharacters(completion: @escaping () -> Void)
+    func getInitialCharacters(completion: @escaping () -> Void)
     {
-        
-        
-        Network.shared.apollo.fetch(query: GetCharactersQuery()) { result in
+        let query = selectQuery()
+        query.page = page
+        Network.shared.apollo.fetch(query: query ) { result in
           switch result
             {
               case .success(let graphQLResult):
@@ -49,5 +51,24 @@ class CharactersListViewModel
               }
         }
     }
+    
+    
+    func selectQuery() -> GetCharactersQuery
+    {
+        if characterFilterType == .none
+        {
+            return GetCharactersQuery()
+        }
+        else if characterFilterType == .morty
+        {
+            return GetCharactersQuery()
+        }
+        else
+        {
+            return GetCharactersQuery()
+        }
+    }
+    
+    
 }
 

@@ -1,5 +1,5 @@
-query getCharacters{
-  characters(page: 1) {
+query getCharacters($page: Int){
+  characters(page: $page) {
     results {
       id
       name
@@ -10,3 +10,4 @@ query getCharacters{
     }
   }
 }
+
