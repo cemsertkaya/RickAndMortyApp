@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import RickAndMortyApp
+@testable import Apollo
 
 class RickAndMortyAppTests: XCTestCase {
 
@@ -17,14 +18,38 @@ class RickAndMortyAppTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    func testFetchCharacter() throws
+    {
+        
+        let query = GetCharactersQuery()
+        query.page = 0
+        query.name = .none
+        
+        Network.shared.apollo.fetch(query: query) { result in
+          switch result
+          {
+              case .success(let graphQLResult):
+                  print("Success! Result: \(graphQLResult)")
+                  if let newCharacters = graphQLResult.data?.characters?.results
+                  {
+                      var list = [CharacterViewModel]()
+                      for newCharacter in newCharacters
+                      {
+                          let vm = CharacterViewModel(name: (newCharacter?.name)!, location: (newCharacter?.location?.name)!, imageLink: (newCharacter?.image)!, id: (newCharacter?.id)!)
+                          list.append(vm)
+                      }
+                      XCTAssertEqual(list.count, 20)
+                  }
+              case .failure(let error):
+                print("Failure! Error: \(error)")
+                
+            }
+        }
     }
+    
+    
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
