@@ -95,7 +95,10 @@ class ViewController: UIViewController
         self.backgroundBlurEffect.isHidden.toggle()
     }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
+    @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {closeFilterView()}
+    
+    func closeFilterView()
+    {
         if self.backgroundBlurEffect.isHidden == false
         {
             self.backgroundBlurEffect.isHidden.toggle()
@@ -238,14 +241,15 @@ extension ViewController
         {
             if charachterListViewModel.characterFilterType == .morty {changeCharacterFilterType(changeTo: .none)}
             else {changeCharacterFilterType(changeTo: .morty)}
-            updateButtonImage()
         }
         else
         {
             if charachterListViewModel.characterFilterType == .rick {changeCharacterFilterType(changeTo: .none)}
             else {changeCharacterFilterType(changeTo: .rick)}
-            updateButtonImage()
         }
+        updateButtonImage()
+        charachterListViewModel.reset(tableView: tableView)
+        closeFilterView()
     }
     
     func changeCharacterFilterType(changeTo: CharacterFilterType) {charachterListViewModel.characterFilterType = changeTo}
@@ -255,9 +259,9 @@ extension ViewController
 
 
 
-public enum CharacterFilterType
+public enum CharacterFilterType : String
 {
-    case none
+    case none = ""
     case rick
     case morty
 }

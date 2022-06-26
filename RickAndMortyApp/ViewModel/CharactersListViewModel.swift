@@ -26,21 +26,17 @@ class CharactersListViewModel
     
     func getInitialCharacters(completion: @escaping () -> Void)
     {
-        let query = selectQuery()
-        query.page = page
-        Network.shared.apollo.fetch(query: query ) { result in
+        Network.shared.apollo.fetch(query: createQuery()) { result in
           switch result
-            {
+          {
               case .success(let graphQLResult):
                   print("Success! Result: \(graphQLResult)")
                 if let newCharacters = graphQLResult.data?.characters?.results
                   {
                       for newCharacter in newCharacters
                       {
-                          //Refactor !!
                           let vm = CharacterViewModel(name: (newCharacter?.name)!, location: (newCharacter?.location?.name)!, imageLink: (newCharacter?.image)!, id: (newCharacter?.id)!)
                           self.characterViewModels.append(vm)
-                          
                       }
                       completion()
                      
@@ -48,25 +44,25 @@ class CharactersListViewModel
               case .failure(let error):
                 print("Failure! Error: \(error)")
                 completion()
-              }
+            }
         }
     }
     
     
-    func selectQuery() -> GetCharactersQuery
+    func createQuery() -> GetCharactersQuery
     {
-        if characterFilterType == .none
-        {
-            return GetCharactersQuery()
-        }
-        else if characterFilterType == .morty
-        {
-            return GetCharactersQuery()
-        }
-        else
-        {
-            return GetCharactersQuery()
-        }
+        let query = GetCharactersQuery()
+        query.page = page
+        query.name = characterFilterType.rawValue
+        return query
+    }
+    
+    func reset(tableView : UITableView)
+    {
+        characterViewModels.removeAll()
+        page = 1
+        getInitialCharacters {tableView.reloadData()}
+        
     }
     
     
